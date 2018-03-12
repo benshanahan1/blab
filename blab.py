@@ -22,17 +22,17 @@ with open("adverbs.txt") as f:
 with open("adjectives.txt") as f:
     for i, line in enumerate(f):
         if i == sorted_adjectives[0]:
-	    output += line 
+            output += line 
         elif i == sorted_adjectives[1]:
             output += line
         elif i > sorted_adjectives[1]:
-	    break
+            break
 
 with open("nouns.txt") as f:
     for i, line in enumerate(f):
         if i == sorted_nouns[0]:
-	    output += line
-	elif i > sorted_nouns[0]:
-	    break
+            output += line
+        elif i > sorted_nouns[0]:
+            break
 
 print(" ".join(output.split("\r\n")).title())
