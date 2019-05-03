@@ -31,4 +31,4 @@ with open("nouns.txt") as f:
             output.append(line)
             break
 
-print(" ".join(output).title())
+print(" ".join(output).capitalize())
