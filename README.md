@@ -4,4 +4,4 @@ Generate phrases...
 
     $ python blab.py
 
-Words are from [corpora repo](https://github.com/dariusk/corpora).
+Words are from [corpora](https://github.com/dariusk/corpora) repo.
