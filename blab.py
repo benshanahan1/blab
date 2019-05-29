@@ -1,34 +1,44 @@
-from random import randint
-from re import sub
+from argparse import ArgumentParser
+from json import load
+from random import choice
 
-n_adv   = 6276
-n_adj   = 28479
-n_noun  = 90963
-pattern = r"\s+"  # remove non-space whitespace
-output  = []
 
-with open("adverbs.txt") as f:
-    adv_idx = randint(1, n_adv)
-    for i, line in enumerate(f):
-        line = sub(pattern, "", line)
-        if i == adv_idx:
-            output.append(line)
-            break
+def get_arg_parser():
+    parser = ArgumentParser()
+    parser.add_argument('-n',
+                        default=1,
+                        type=int,
+                        help='Number of phrases to generate.')
+    return parser
 
-with open("adjectives.txt") as f:
-    adj_idx = randint(1, n_adj)
-    for i, line in enumerate(f):
-        line = sub(pattern, "", line)
-        if i == adj_idx:
-            output.append(line)
-            break
 
-with open("nouns.txt") as f:
-    noun_idx = randint(1, n_noun)
-    for i, line in enumerate(f):
-        line = sub(pattern, "", line)
-        if i == noun_idx:
-            output.append(line)
-            break
+def load_list(path):
+    with open(path, 'r') as fd:
+        return load(fd)
 
-print(" ".join(output).capitalize())
+
+def get_word_lists():
+    adjectives = load_list('adjectives.json')['adjs']
+    adverbs = load_list('adverbs.json')['adverbs']
+    nouns = load_list('nouns.json')['nouns']
+    return (adjectives, adverbs, nouns)
+
+
+def get_phrase_parts(word_lists):
+    adjectives, adverbs, nouns = word_lists
+    return [choice(adverbs), choice(adjectives), choice(nouns)]
+
+
+def format_phrase(parts):
+    return '{}.'.format(' '.join(parts).capitalize())
+
+
+if __name__ == '__main__':
+    parser = get_arg_parser()
+    args = parser.parse_args()
+
+    # Generate phrases.
+    word_lists = get_word_lists()
+    for i in range(args.n):
+        parts = get_phrase_parts(word_lists)
+        print(format_phrase(parts))
